@@ -30,10 +30,11 @@ on:
       target:
         description: "Select device board"
         required: false
-        default: "hg680p"
+        default: "t95z-plus"
         type: choice
         options:
           - all
+          - t95z-plus
           - hg680p
           - b860h
           - nanopi-r5s
@@ -190,6 +191,9 @@ jobs:
         run: |
           if [ "$TARGET" == "all" ]; then
             echo "openwrt_board=all" >> $GITHUB_ENV
+          elif [ "$TARGET" == "t95z-plus" ]; then
+            # T95Z-Plus = Amlogic S912 (8-core, ARM64)
+            echo "openwrt_board=s912" >> $GITHUB_ENV
           elif [ "$TARGET" == "hg680p" ] || [ "$TARGET" == "b860h" ]; then
             echo "openwrt_board=s905x" >> $GITHUB_ENV
           elif [ "$TARGET" == "nanopi-r5s" ]; then
