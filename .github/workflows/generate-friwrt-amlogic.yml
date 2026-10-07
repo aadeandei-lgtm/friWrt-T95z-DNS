@@ -354,7 +354,8 @@ jobs:
         shell: bash
         run: |
           cd $WORKING_DIR
-          echo "RELEASE_TAG=amlogic-${{ env.openwrt_board }}-$BASE-$BRANCH-$DATEMONTH$([ "$REVISION_TAG" == "true" ] && echo -rev)" >> $GITHUB_ENV
+          # Nomor run unik: tiap build = release terpisah, TIDAK menimpa yang lama
+          echo "RELEASE_TAG=amlogic-s912-$BASE-$BRANCH-$DATEMONTH-r${{ github.run_number }}$([ "$REVISION_TAG" == "true" ] && echo -rev)" >> $GITHUB_ENV
           r=$(awk '/^\*\*Changelog\*\*/ {if(found) exit; found=1} found' changelog_amlogic.md)
           r="${r//'%'/'%25'}"
           r="${r//$'\n'/'%0A'}"
@@ -382,7 +383,7 @@ jobs:
           asset_name: ${{ github.event.repository.name }}-${{ github.sha }}
           tag: ${{ env.RELEASE_TAG }}
           release_name: ${{ env.RELEASE_TAG }}
-          overwrite: true
+          overwrite: false
           prerelease: ${{ env.PRE_RELEASE }}
           body: |
             ![GitHub Downloads (all assets, specific tag)](https://img.shields.io/github/downloads/frizkyiman/friWrt-MyWrtBuilder/${{ env.RELEASE_TAG }}/total?style=for-the-badge&logo=Openwrt)
