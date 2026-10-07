@@ -37,8 +37,7 @@ PACKAGES+=" luci-app-adguardhome ca-certificates ca-bundle tar unzip bind-tools"
 PACKAGES+=" luci-app-diskman luci-app-hd-idle luci-app-disks-info smartmontools kmod-usb-storage kmod-usb-storage-uas ntfs-3g"
 PACKAGES+=" samba4-server luci-app-samba4 aria2 ariang luci-app-aria2 luci-app-tinyfm"
 
-# Docker
-PACKAGES+=" docker docker-compose dockerd luci-app-dockerman"
+# (Optimized: Docker DIHAPUS — tidak dibutuhkan untuk server AGH murni)
 
 # Bandwidth And Network Monitoring
 PACKAGES+=" internet-detector luci-app-internet-detector internet-detector-mod-modem-restart nlbwmon luci-app-nlbwmon vnstat2 vnstati2 luci-app-vnstat2 luci-app-netmonitor"
@@ -93,11 +92,12 @@ PACKAGES+=" $misc zram-swap adb parted losetup resize2fs luci luci-ssl block-mou
 PACKAGES+=" haveged irqbalance"
 
 # Exclude package (must use - before packages name)
+# dnsmasq/dnsmasq-full dihapus: AGH langsung pegang port 53 (server AGH murni untuk MikroTik)
 EXCLUDED=""
 if [ "${RELEASE_BRANCH%:*}" == "openwrt" ]; then
-    EXCLUDED+=" -dnsmasq"
+    EXCLUDED+=" -dnsmasq -dnsmasq-full"
 elif [ "${RELEASE_BRANCH%:*}" == "immortalwrt" ]; then
-    EXCLUDED+=" -dnsmasq -automount -libustream-openssl -default-settings-chn -luci-i18n-base-zh-cn"
+    EXCLUDED+=" -dnsmasq -dnsmasq-full -automount -libustream-openssl -default-settings-chn -luci-i18n-base-zh-cn"
     if [ "$ARCH_2" == "x86_64" ]; then
       EXCLUDED+=" -kmod-usb-net-rtl8152-vendor"
     fi
