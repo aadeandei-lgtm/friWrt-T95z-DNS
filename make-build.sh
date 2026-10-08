@@ -35,12 +35,14 @@ PACKAGES+=" luci-app-adguardhome ca-certificates ca-bundle tar unzip bind-tools"
 
 # NAS and Hard disk tools
 PACKAGES+=" luci-app-diskman luci-app-hd-idle luci-app-disks-info smartmontools kmod-usb-storage kmod-usb-storage-uas ntfs-3g"
-PACKAGES+=" samba4-server luci-app-samba4 aria2 ariang luci-app-aria2 luci-app-tinyfm"
+PACKAGES+=" samba4-server luci-app-samba4 aria2 ariang luci-app-aria2"  # tinyfm DIHAPUS (butuh php8, tidak perlu)
 
 # (Optimized: Docker DIHAPUS — tidak dibutuhkan untuk server AGH murni)
 
 # Bandwidth And Network Monitoring
-PACKAGES+=" internet-detector luci-app-internet-detector internet-detector-mod-modem-restart nlbwmon luci-app-nlbwmon vnstat2 vnstati2 luci-app-vnstat2 luci-app-netmonitor"
+# (Stable fix: vnstat2/vnstati2/luci-app-vnstat2 DIHAPUS total — db readonly di overlay)
+# (internet-detector-mod-modem-restart DIHAPUS — hanya untuk modem)
+PACKAGES+=" internet-detector luci-app-internet-detector nlbwmon luci-app-nlbwmon luci-app-netmonitor"
 
 # Speedtest
 PACKAGES+=" librespeed-go python3-speedtest-cli iperf3 luci-app-netspeedtest"
@@ -58,7 +60,8 @@ PACKAGES+=" luci-theme-alpha luci-app-alpha-config"
 PACKAGES+=" luci-theme-rta luci-app-rtaconfig"
 
 # PHP8
-PACKAGES+=" libc php8 php8-fastcgi php8-fpm php8-mod-session php8-mod-ctype php8-mod-fileinfo php8-mod-zip php8-mod-iconv php8-mod-mbstring coreutils-stat zoneinfo-asia"
+# (Stable fix: php8 suite DIHAPUS — 78MB, hanya untuk tinyfm)
+PACKAGES+=" libc coreutils-stat zoneinfo-asia"
 
 # Misc and some custom .ipk files
 misc=""
@@ -93,7 +96,8 @@ PACKAGES+=" haveged irqbalance"
 
 # Exclude package (must use - before packages name)
 # dnsmasq/dnsmasq-full dihapus: AGH langsung pegang port 53 (server AGH murni untuk MikroTik)
-EXCLUDED=""
+# modemmanager/netdata/vnstat/tinyfm/php8 dihapus: tidak dibutuhkan, makan RAM & rawan error
+EXCLUDED=" -modemmanager -luci-proto-modemmanager -netdata -vnstat2 -vnstati2 -luci-app-vnstat2 -luci-app-tinyfm -php8 -php8-fpm -php8-fastcgi"
 if [ "${RELEASE_BRANCH%:*}" == "openwrt" ]; then
     EXCLUDED+=" -dnsmasq -dnsmasq-full"
 elif [ "${RELEASE_BRANCH%:*}" == "immortalwrt" ]; then
