@@ -102,6 +102,11 @@ on:
         required: false
         default: "false"
         type: boolean
+      release_tag_suffix:
+        description: "Suffix tambahan di tag release (misal: DNSfix)"
+        required: false
+        default: ""
+        type: string
 
 env:
   TYPE: AMLOGIC
