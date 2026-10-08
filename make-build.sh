@@ -42,7 +42,8 @@ PACKAGES+=" samba4-server luci-app-samba4 aria2 ariang luci-app-aria2"  # tinyfm
 # Bandwidth And Network Monitoring
 # (Stable fix: vnstat2/vnstati2/luci-app-vnstat2 DIHAPUS total — db readonly di overlay)
 # (internet-detector-mod-modem-restart DIHAPUS — hanya untuk modem)
-PACKAGES+=" internet-detector luci-app-internet-detector nlbwmon luci-app-nlbwmon luci-app-netmonitor"
+# (r12: luci-app-netmonitor DIHAPUS — menarik dependency netdata yang error + makan RAM)
+PACKAGES+=" internet-detector luci-app-internet-detector nlbwmon luci-app-nlbwmon"
 
 # Speedtest
 PACKAGES+=" librespeed-go python3-speedtest-cli iperf3 luci-app-netspeedtest"
